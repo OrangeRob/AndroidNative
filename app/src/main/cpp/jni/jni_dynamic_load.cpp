@@ -1,4 +1,5 @@
 #include <base.h>
+#include <jvm.h>
 
 jstring getMessage(JNIEnv* env, jobject thiz) {
     return env->NewStringUTF("this is message from jni");

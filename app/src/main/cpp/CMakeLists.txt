@@ -29,6 +29,15 @@ add_library(native-method
             SHARED
             jni/jni_access_method.cpp )
 
+add_library(native-invoke
+        SHARED
+        base/jvm.cpp
+        jni/jni_invoke_method.cpp )
+
+add_library(native-constructor
+        SHARED
+        jni/jni_constructor_class.cpp )
+
 add_library( # Sets the name of the library.
              dynamic-lib
 
@@ -65,16 +74,22 @@ target_link_libraries( # Specifies the target library.
                        ${log-lib} )
 
 target_link_libraries( native-basic
-                        ${log-lib} )
+        ${log-lib} )
 
 target_link_libraries( native-string
-                        ${log-lib} )
+        ${log-lib} )
 
 target_link_libraries( native-ref
-                        ${log-lib} )
+        ${log-lib} )
 
 target_link_libraries( native-field
         ${log-lib} )
 
 target_link_libraries( native-method
+        ${log-lib} )
+
+target_link_libraries( native-invoke
+        ${log-lib} )
+
+target_link_libraries( native-constructor
         ${log-lib} )

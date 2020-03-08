@@ -17,14 +17,17 @@ Java_com_nativejni_jni_JNIAccessMethod_accessStaticMethod(JNIEnv *env, jobject t
         jobject animal) {
     jclass cls = env->GetObjectClass(animal);
 
-    /* public static String callStaticMethod(String str) */
+    /* 1. public static String callStaticMethod(String str) */
     jmethodID mid = env->GetStaticMethodID(cls, "callStaticMethod", "(Ljava/lang/String;)Ljava/lang/String;");
     jstring str = env->NewStringUTF("jstring from jni.");
-    env->CallStaticObjectMethod(cls, mid, str);
+    jobject ret = env->CallStaticObjectMethod(cls, mid, str);
+    const char *strReturn = env->GetStringUTFChars(static_cast<jstring>(ret), 0);
+    LOGD("jni >> got return : %s", strReturn);
+    env->ReleaseStringUTFChars(static_cast<jstring>(ret), strReturn);
+    env->DeleteLocalRef(ret);
 
-    /* public static String callStaticMethod(String[] strs, int num) */
+    /* 2. public static String callStaticMethod(String[] strs, int num) */
     mid = env->GetStaticMethodID(cls, "callStaticMethod", "([Ljava/lang/String;I)Ljava/lang/String;");
-
     jclass strClass = env->FindClass("java/lang/String");
     int size = 2;
     jobjectArray strArray = env->NewObjectArray(size, strClass, nullptr);

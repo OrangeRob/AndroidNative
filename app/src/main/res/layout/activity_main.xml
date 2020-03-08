@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
 
         <TextView
             android:id="@+id/textView"
@@ -81,7 +82,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="horizontal">
 
@@ -99,6 +100,46 @@
                 android:layout_weight="1"
                 android:text="Method" />
 
+        </LinearLayout>
+
+        <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Callback"
+        android:textColor="@android:color/black" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_invoke"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Invoke Method" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Constructor"
+            android:textColor="@android:color/black" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_constructor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Constructor Method" />
         </LinearLayout>
 
     </LinearLayout>

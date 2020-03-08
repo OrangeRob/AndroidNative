@@ -30,7 +30,7 @@ public class Animal {
         else
             Log.i(TAG, "call static method str is null.");
 
-        return "";
+        return "return from Java";
     }
 
     public static String callStaticMethod(String[] strs, int num) {
