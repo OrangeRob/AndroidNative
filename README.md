@@ -1,0 +1,2 @@
+# Android NDK with CMake
+
