@@ -3,20 +3,49 @@
 
 extern "C"
 JNIEXPORT jstring JNICALL
-Java_com_nativejni_jni_JNIReferenceType_callNativeStringArray(JNIEnv *env, jobject thiz,
-                                                              jobjectArray str_array) {
-    int len = env->GetArrayLength(str_array);
-    jstring strings[len];
-//    const char *pCharArr[len];
+Java_com_nativejni_jni_JNIReferenceType_errorCacheLocalReference(JNIEnv *env, jobject thiz) {
+    jclass localRefs = env->FindClass("java/lang/String");
+    jmethodID mid = env->GetMethodID(localRefs, "<init>", "(Ljava/lang/String;)V");
+    jstring str = env->NewStringUTF("[Cpp] use local reference");
 
-    for(int i = 0; i < len; i++)
-        strings[i] = static_cast<jstring>(env->GetObjectArrayElement(str_array, i));
+#ifdef _ERROR
+    /* cause local reference table overflow */
+    for(int i = 0; i < 10000000; i++) {
+        jclass localRefs = env->FindClass("java/lang/String");
+        env->DeleteLocalRef(localRefs);
+    }
+#endif
 
-//    for(int i = 0; i < len; i++)
-//        pCharArr[i] = env->GetStringUTFChars(strings[i], 0);
-//
-//    for(int i = 0; i < len; i++)
-//        env->ReleaseStringUTFChars(strings[i], pCharArr[i]);
+    return static_cast<jstring>(env->NewObject(localRefs, mid, str));
+}
 
-    return strings[0];
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_com_nativejni_jni_JNIReferenceType_cacheWithGlobalReference(JNIEnv *env, jobject thiz) {
+    static jclass globalRef = nullptr;
+    if(globalRef == nullptr) {
+        jclass cls = env->FindClass("java/lang/String");
+        globalRef = static_cast<jclass>(env->NewGlobalRef(cls));
+        env->DeleteLocalRef(cls);
+        LOGD("jclass address : %p", globalRef);
+    } else {
+        LOGD("use cached. jclass address : %p", globalRef);
+    }
+
+    jmethodID mid = env->GetMethodID(globalRef, "<init>", "(Ljava/lang/String;)V");
+    jstring str = env->NewStringUTF("[Cpp] use global reference");
+    return static_cast<jstring>(env->NewObject(globalRef, mid, str));
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_nativejni_jni_JNIReferenceType_useWeakGlobalReference(JNIEnv *env, jobject thiz) {
+    static jclass weakGlobalRef = nullptr;
+    jboolean isGC = env->IsSameObject(weakGlobalRef, nullptr);
+    LOGD("weakGlobalRef exist ? %d (address : %p)", isGC, weakGlobalRef);
+    if(weakGlobalRef == nullptr) {
+        jclass cls = env->FindClass("java/lang/String");
+        weakGlobalRef = static_cast<jclass>(env->NewWeakGlobalRef(cls)); // env->DeleteGlobalRef()
+        env->DeleteLocalRef(cls);
+    }
 }

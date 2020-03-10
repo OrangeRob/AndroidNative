@@ -38,6 +38,22 @@ add_library(native-constructor
         SHARED
         jni/jni_constructor_class.cpp )
 
+add_library(native-execption
+        SHARED
+        jni/jni_execption.cpp )
+
+add_library(native-thread
+        SHARED
+        jni/jni_thread.cpp )
+
+add_library(native-notify
+        SHARED
+        jni/jni_wait_notify.cpp )
+
+add_library(native-bitmap
+        SHARED
+        jni/jni_bitmap.cpp )
+
 add_library( # Sets the name of the library.
              dynamic-lib
 
@@ -92,4 +108,17 @@ target_link_libraries( native-invoke
         ${log-lib} )
 
 target_link_libraries( native-constructor
+        ${log-lib} )
+
+target_link_libraries( native-execption
+        ${log-lib} )
+
+target_link_libraries( native-thread
+        ${log-lib} )
+
+target_link_libraries( native-notify
+        ${log-lib} )
+
+target_link_libraries( native-bitmap
+        jnigraphics
         ${log-lib} )

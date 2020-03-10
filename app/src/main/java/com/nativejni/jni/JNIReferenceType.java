@@ -5,5 +5,7 @@ public class JNIReferenceType {
         System.loadLibrary("native-ref");
     }
 
-    public native String callNativeStringArray(String[] strArray);
+    public native String errorCacheLocalReference();
+    public native String cacheWithGlobalReference();
+    public native void useWeakGlobalReference();
 }
